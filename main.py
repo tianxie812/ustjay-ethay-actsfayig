@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-
 def get_fact():
 
     response = requests.get("http://unkno.com")
@@ -19,7 +18,11 @@ def get_fact():
 
 @app.route('/')
 def home():
-    return "FILL ME!"
+    fact = get_fact()
+    payload = {'input_text': fact}
+    result = requests.post('https://hidden-journey-62459.herokuapp.com/piglatinize/',
+                           data=payload, allow_redirects=False)
+    return result.headers['Location']
 
 
 if __name__ == "__main__":
